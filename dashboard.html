@@ -2,285 +2,546 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YvesFX | Demo Trading</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>YvesFX — Demo Trading</title>
 
 <style>
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
-  font-family:Arial,sans-serif;
 }
 
 body{
-  background:#06101c;
-  color:#f2f7fa;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0b0f14;
+  color:#e8edf3;
   min-height:100vh;
 }
 
-header{
-  background:#091827;
-  border-bottom:1px solid #173247;
-  padding:18px;
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+/* TOP BAR */
+.topbar{
+  height:64px;
+  background:#111720;
+  border-bottom:1px solid #26303b;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:800;
+  color:#19c37d;
+}
+
+.logo span{
+  color:#fff;
+}
+
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.demo-badge{
+  background:#182c24;
+  color:#19c37d;
+  border:1px solid #1e6e50;
+  padding:7px 11px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.top-btn{
+  border:1px solid #303b48;
+  background:#171e27;
+  color:#dbe3ec;
+  padding:8px 12px;
+  border-radius:7px;
+}
+
+.top-btn:hover{
+  background:#202a35;
+}
+
+.logout{
+  color:#ff6262;
+}
+
+/* LAYOUT */
+.app{
+  display:grid;
+  grid-template-columns:230px 1fr;
+  min-height:calc(100vh - 64px);
+}
+
+.sidebar{
+  background:#0e141b;
+  border-right:1px solid #26303b;
+  padding:18px 12px;
+}
+
+.account-box{
+  background:#141c25;
+  border:1px solid #26313d;
+  padding:14px;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+
+.account-title{
+  color:#8e9aa8;
+  font-size:11px;
+  text-transform:uppercase;
+}
+
+.account-number{
+  margin-top:6px;
+  font-weight:bold;
+}
+
+.nav-title{
+  color:#667383;
+  font-size:11px;
+  margin:20px 10px 8px;
+  text-transform:uppercase;
+}
+
+.nav button{
+  width:100%;
+  background:transparent;
+  color:#aeb9c5;
+  border:0;
+  padding:12px 10px;
+  text-align:left;
+  border-radius:7px;
+  margin-bottom:3px;
+}
+
+.nav button:hover,
+.nav button.active{
+  background:#18231f;
+  color:#19c37d;
+}
+
+.main{
+  padding:16px;
+  min-width:0;
+}
+
+/* DEMO NOTICE */
+.notice{
+  background:#18221f;
+  border:1px solid #26533f;
+  border-radius:9px;
+  padding:11px 14px;
+  color:#b9c7c1;
+  font-size:13px;
+  margin-bottom:15px;
+}
+
+.notice strong{
+  color:#19c37d;
+}
+
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.stat{
+  background:#111820;
+  border:1px solid #27313c;
+  border-radius:9px;
+  padding:14px;
+}
+
+.stat-label{
+  color:#7f8b99;
+  font-size:12px;
+}
+
+.stat-value{
+  margin-top:8px;
+  font-size:21px;
+  font-weight:bold;
+}
+
+.profit{
+  color:#19c37d;
+}
+
+.loss{
+  color:#ff5757;
+}
+
+/* MARKET */
+.market-layout{
+  display:grid;
+  grid-template-columns:1fr 260px;
+  gap:14px;
+  margin-bottom:15px;
+}
+
+.panel{
+  background:#111820;
+  border:1px solid #27313c;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.panel-head{
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 14px;
+  border-bottom:1px solid #27313c;
+}
+
+.panel-head h2{
+  font-size:15px;
+}
+
+.panel-head span{
+  color:#778493;
+  font-size:11px;
+}
+
+.chart-box{
+  height:570px;
+  width:100%;
+  background:#0b0f14;
+}
+
+.tradingview-widget-container,
+.tradingview-widget-container__widget{
+  width:100%;
+  height:100%;
+}
+
+/* WATCHLIST */
+.watchlist{
+  display:flex;
+  flex-direction:column;
+}
+
+.symbol{
+  padding:13px;
+  border-bottom:1px solid #222c36;
+  transition:.15s;
+}
+
+.symbol:hover{
+  background:#151e27;
+}
+
+.symbol-top{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.logo{
-  color:#18d6a3;
-  font-size:30px;
+.symbol-name{
   font-weight:bold;
 }
 
-.user-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.user-name{
-  color:#a9bbc7;
+.symbol-price{
   font-size:14px;
+  margin-top:5px;
 }
 
-.logout{
-  background:#15283a;
-  color:white;
-  border:1px solid #244057;
-  border-radius:10px;
-  padding:10px 15px;
-  cursor:pointer;
+.symbol-change{
+  font-size:11px;
+  color:#19c37d;
+  margin-top:4px;
 }
 
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:18px;
-}
-
-.demo-banner{
-  background:#102b3c;
-  border:1px solid #24506a;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:20px;
-  color:#b9ced9;
-  line-height:1.5;
-}
-
-.demo-banner strong{
-  color:#18d6a3;
-}
-
-.stats{
+.symbol-buttons{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:20px;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  margin-top:9px;
 }
 
-.stat{
-  background:#0b1b2a;
-  border:1px solid #183248;
-  border-radius:16px;
-  padding:18px;
-}
-
-.stat-title{
-  color:#8fa5b4;
-  font-size:13px;
-  margin-bottom:8px;
-}
-
-.stat-value{
-  font-size:24px;
+.buy,
+.sell{
+  border:0;
+  color:#fff;
+  padding:7px;
+  border-radius:5px;
   font-weight:bold;
-}
-
-.section{
-  background:#0b1b2a;
-  border:1px solid #183248;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:20px;
-}
-
-.section h2{
-  margin-bottom:15px;
-}
-
-.market{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-}
-
-.pair{
-  background:#071522;
-  border:1px solid #1a3548;
-  border-radius:14px;
-  padding:15px;
-}
-
-.pair-name{
-  font-size:17px;
-  font-weight:bold;
-  margin-bottom:8px;
-}
-
-.price{
-  font-size:21px;
-  font-weight:bold;
-  margin-bottom:12px;
+  font-size:11px;
 }
 
 .buy{
-  background:#13b887;
+  background:#087d50;
+}
+
+.buy:hover{
+  background:#099764;
 }
 
 .sell{
-  background:#e05252;
+  background:#a72e3b;
 }
 
-.buy,.sell{
-  border:none;
-  color:white;
-  width:48%;
-  padding:10px 5px;
-  border-radius:8px;
-  font-weight:bold;
-  cursor:pointer;
+.sell:hover{
+  background:#c13745;
 }
 
-.trade-box{
+/* TRADE PANEL */
+.trade-panel{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.form-panel{
+  padding:15px;
+}
+
+.form-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  align-items:end;
+  gap:10px;
 }
 
 .field label{
   display:block;
-  color:#91a7b5;
-  font-size:13px;
-  margin-bottom:7px;
+  color:#84909e;
+  font-size:11px;
+  margin-bottom:5px;
 }
 
-.field input,.field select{
+.field input,
+.field select{
   width:100%;
-  padding:12px;
-  border-radius:9px;
-  border:1px solid #244057;
-  background:#06101c;
-  color:white;
+  background:#0c1218;
+  color:#fff;
+  border:1px solid #303b47;
+  border-radius:6px;
+  padding:10px;
   outline:none;
 }
 
-.actions{
-  display:flex;
+.field input:focus,
+.field select:focus{
+  border-color:#19c37d;
+}
+
+.trade-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:8px;
+  margin-top:12px;
 }
 
-.actions button{
-  flex:1;
-  padding:12px 5px;
-  border:none;
-  border-radius:9px;
-  color:white;
+.trade-buttons button{
+  padding:11px;
+  border:0;
+  border-radius:6px;
+  color:#fff;
   font-weight:bold;
-  cursor:pointer;
 }
 
-.positions{
+.buy-big{
+  background:#087d50;
+}
+
+.sell-big{
+  background:#a72e3b;
+}
+
+/* TABLE */
+.table-panel{
+  margin-bottom:15px;
+}
+
+.table-wrap{
   overflow-x:auto;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:850px;
+  min-width:700px;
 }
 
 th,td{
-  padding:12px 8px;
-  border-bottom:1px solid #183248;
+  padding:12px 13px;
   text-align:left;
-  font-size:13px;
+  border-bottom:1px solid #202a34;
+  font-size:12px;
 }
 
 th{
-  color:#8fa5b4;
+  color:#758190;
+  font-size:10px;
+  text-transform:uppercase;
+  background:#10171f;
+}
+
+td{
+  color:#d4dce5;
 }
 
 .close-btn{
-  background:#8e3030;
-  color:white;
-  border:none;
-  padding:7px 10px;
-  border-radius:7px;
-  cursor:pointer;
+  background:#262f39;
+  color:#fff;
+  border:1px solid #3b4652;
+  border-radius:5px;
+  padding:5px 8px;
+  font-size:11px;
+}
+
+.close-btn:hover{
+  background:#343f4b;
 }
 
 .empty{
-  color:#8095a2;
-  padding:15px 0;
+  text-align:center;
+  padding:25px;
+  color:#667382;
 }
 
-.profit{
-  color:#18d6a3;
+/* SETTINGS */
+.settings{
+  display:none;
 }
 
-.loss{
-  color:#ff6666;
+.settings.show{
+  display:block;
 }
 
-@media(max-width:800px){
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .market{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .trade-box{
-    grid-template-columns:repeat(2,1fr);
-  }
+.setting-row{
+  padding:15px;
+  border-bottom:1px solid #242e38;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-@media(max-width:500px){
-  .user-name{
-    display:none;
-  }
+.setting-row label{
+  color:#aab4bf;
+  font-size:13px;
+}
 
-  .market{
-    grid-template-columns:1fr 1fr;
-  }
+.setting-row select{
+  background:#0c1218;
+  color:#fff;
+  border:1px solid #303b47;
+  padding:8px;
+  border-radius:6px;
+}
 
-  .pair{
-    padding:12px;
-  }
-
-  .price{
-    font-size:17px;
-  }
-
-  .trade-box{
+/* MOBILE */
+@media(max-width:1100px){
+  .market-layout{
     grid-template-columns:1fr;
   }
 
+  .watchlist{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+  }
+
   .stats{
-    gap:10px;
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .trade-panel{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:760px){
+  .app{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    display:none;
+  }
+
+  .main{
+    padding:9px;
+  }
+
+  .topbar{
+    padding:0 10px;
+  }
+
+  .logo{
+    font-size:18px;
+  }
+
+  .demo-badge{
+    display:none;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+    gap:7px;
   }
 
   .stat{
-    padding:14px;
+    padding:11px;
   }
 
   .stat-value{
-    font-size:20px;
+    font-size:16px;
+  }
+
+  .chart-box{
+    height:430px;
+  }
+
+  .watchlist{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .panel-head{
+    padding:0 10px;
+  }
+}
+
+@media(max-width:430px){
+  .chart-box{
+    height:390px;
+  }
+
+  .watchlist{
+    grid-template-columns:1fr;
+  }
+
+  .top-btn{
+    padding:7px 8px;
+    font-size:11px;
   }
 }
 </style>
@@ -288,363 +549,1109 @@ th{
 
 <body>
 
-<header>
-  <div class="logo">YvesFX</div>
+<header class="topbar">
 
-  <div class="user-area">
-    <div class="user-name" id="userName"></div>
-    <button class="logout" onclick="logout()">Logout</button>
+  <div class="logo">
+    Yves<span>FX</span>
   </div>
+
+  <div class="top-right">
+    <div class="demo-badge">DEMO ACCOUNT</div>
+
+    <button class="top-btn" onclick="showSettings()">
+      ⚙ Settings
+    </button>
+
+    <button class="top-btn logout" onclick="logout()">
+      Logout
+    </button>
+  </div>
+
 </header>
 
-<div class="container">
 
-  <div class="demo-banner">
-    🟢 <strong>DEMO MODE</strong> —
-    All balances, prices and trades are simulated.
-    No real money or broker/liquidity connection is active.
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+  <div class="account-box">
+    <div class="account-title">Account</div>
+    <div class="account-number" id="accountEmail">
+      Demo Account
+    </div>
   </div>
 
-  <!-- ACCOUNT STATS -->
-  <div class="stats">
+  <div class="nav-title">Trading</div>
+
+  <div class="nav">
+    <button class="active" onclick="scrollToId('marketSection')">
+      📈 Market
+    </button>
+
+    <button onclick="scrollToId('tradeSection')">
+      💱 New Trade
+    </button>
+
+    <button onclick="scrollToId('positionsSection')">
+      📊 Positions
+    </button>
+
+    <button onclick="scrollToId('historySection')">
+      📜 History
+    </button>
+
+    <button onclick="showSettings()">
+      ⚙ Settings
+    </button>
+  </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+  <div class="notice">
+    <strong>YvesFX Demo</strong> — Market prices are displayed from TradingView.
+    Orders placed here are simulated demo trades only.
+  </div>
+
+
+  <!-- STATS -->
+
+  <section class="stats">
 
     <div class="stat">
-      <div class="stat-title">BALANCE</div>
+      <div class="stat-label">Balance</div>
       <div class="stat-value" id="balance">$10,000.00</div>
     </div>
 
     <div class="stat">
-      <div class="stat-title">EQUITY</div>
+      <div class="stat-label">Equity</div>
       <div class="stat-value" id="equity">$10,000.00</div>
     </div>
 
     <div class="stat">
-      <div class="stat-title">FREE MARGIN</div>
+      <div class="stat-label">Free Margin</div>
       <div class="stat-value" id="freeMargin">$10,000.00</div>
     </div>
 
     <div class="stat">
-      <div class="stat-title">OPEN P/L</div>
-      <div class="stat-value" id="openPL">$0.00</div>
+      <div class="stat-label">Floating P/L</div>
+      <div class="stat-value profit" id="floatingPL">$0.00</div>
     </div>
 
-  </div>
+  </section>
 
 
   <!-- MARKET -->
-  <div class="section">
 
-    <h2>Market</h2>
+  <section class="market-layout" id="marketSection">
 
-    <div class="market">
+    <div class="panel">
 
-      <div class="pair">
-        <div class="pair-name">EUR/USD</div>
-        <div class="price" id="EURUSD">1.08500</div>
+      <div class="panel-head">
 
-        <div>
-          <button class="buy" onclick="quickTrade('EURUSD','BUY')">
-            BUY
-          </button>
+        <h2>EUR/USD — Live Chart</h2>
 
-          <button class="sell" onclick="quickTrade('EURUSD','SELL')">
-            SELL
-          </button>
+        <span>
+          TradingView Market Data
+        </span>
+
+      </div>
+
+      <div class="chart-box">
+
+        <div class="tradingview-widget-container">
+
+          <div
+            class="tradingview-widget-container__widget">
+          </div>
+
+          <script
+            type="text/javascript"
+            src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+            async>
+
+          {
+            "autosize": true,
+            "symbol": "FX:EURUSD",
+            "interval": "15",
+            "timezone": "exchange",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "withdateranges": true,
+            "hide_side_toolbar": false,
+            "allow_symbol_change": true,
+            "save_image": true,
+            "details": true,
+            "hotlist": false,
+            "calendar": false,
+            "studies": [
+              "MASimple@tv-basicstudies",
+              "RSI@tv-basicstudies",
+              "MACD@tv-basicstudies"
+            ],
+            "show_popup_button": true,
+            "popup_width": "1000",
+            "popup_height": "650",
+            "support_host": "https://www.tradingview.com"
+          }
+
+          </script>
+
         </div>
-      </div>
-
-
-      <div class="pair">
-        <div class="pair-name">GBP/USD</div>
-        <div class="price" id="GBPUSD">1.26800</div>
-
-        <div>
-          <button class="buy" onclick="quickTrade('GBPUSD','BUY')">
-            BUY
-          </button>
-
-          <button class="sell" onclick="quickTrade('GBPUSD','SELL')">
-            SELL
-          </button>
-        </div>
-      </div>
-
-
-      <div class="pair">
-        <div class="pair-name">USD/JPY</div>
-        <div class="price" id="USDJPY">147.250</div>
-
-        <div>
-          <button class="buy" onclick="quickTrade('USDJPY','BUY')">
-            BUY
-          </button>
-
-          <button class="sell" onclick="quickTrade('USDJPY','SELL')">
-            SELL
-          </button>
-        </div>
-      </div>
-
-
-      <div class="pair">
-        <div class="pair-name">XAU/USD</div>
-        <div class="price" id="XAUUSD">2350.00</div>
-
-        <div>
-          <button class="buy" onclick="quickTrade('XAUUSD','BUY')">
-            BUY
-          </button>
-
-          <button class="sell" onclick="quickTrade('XAUUSD','SELL')">
-            SELL
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- NEW TRADE -->
-  <div class="section">
-
-    <h2>New Demo Trade</h2>
-
-    <div class="trade-box">
-
-      <div class="field">
-        <label>Symbol</label>
-
-        <select id="symbol">
-          <option value="EURUSD">EUR/USD</option>
-          <option value="GBPUSD">GBP/USD</option>
-          <option value="USDJPY">USD/JPY</option>
-          <option value="XAUUSD">XAU/USD</option>
-        </select>
-      </div>
-
-
-      <div class="field">
-        <label>Volume (Lots)</label>
-
-        <input
-          type="number"
-          id="lots"
-          value="0.10"
-          min="0.01"
-          step="0.01"
-        >
-      </div>
-
-
-      <div class="field">
-        <label>Stop Loss</label>
-
-        <input
-          type="number"
-          id="sl"
-          placeholder="Optional"
-          step="0.00001"
-        >
-      </div>
-
-
-      <div class="field">
-        <label>Take Profit</label>
-
-        <input
-          type="number"
-          id="tp"
-          placeholder="Optional"
-          step="0.00001"
-        >
-      </div>
-
-
-      <div class="actions">
-
-        <button
-          class="buy"
-          onclick="openTrade('BUY')"
-        >
-          BUY
-        </button>
-
-        <button
-          class="sell"
-          onclick="openTrade('SELL')"
-        >
-          SELL
-        </button>
 
       </div>
 
     </div>
 
-  </div>
+
+    <!-- WATCHLIST -->
+
+    <div class="panel">
+
+      <div class="panel-head">
+        <h2>Market Watch</h2>
+        <span>LIVE</span>
+      </div>
+
+      <div class="watchlist">
+
+        <div class="symbol">
+
+          <div class="symbol-top">
+            <div class="symbol-name">EURUSD</div>
+            <div>EUR/USD</div>
+          </div>
+
+          <div class="symbol-price">Live</div>
+
+          <div class="symbol-change">
+            Forex
+          </div>
+
+          <div class="symbol-buttons">
+            <button class="buy"
+              onclick="quickTrade('EURUSD','BUY')">
+              BUY
+            </button>
+
+            <button class="sell"
+              onclick="quickTrade('EURUSD','SELL')">
+              SELL
+            </button>
+          </div>
+
+        </div>
 
 
-  <!-- OPEN POSITIONS -->
-  <div class="section">
+        <div class="symbol">
 
-    <h2>Open Positions</h2>
+          <div class="symbol-top">
+            <div class="symbol-name">GBPUSD</div>
+            <div>GBP/USD</div>
+          </div>
 
-    <div class="positions">
+          <div class="symbol-price">Live</div>
+
+          <div class="symbol-change">
+            Forex
+          </div>
+
+          <div class="symbol-buttons">
+
+            <button class="buy"
+              onclick="quickTrade('GBPUSD','BUY')">
+              BUY
+            </button>
+
+            <button class="sell"
+              onclick="quickTrade('GBPUSD','SELL')">
+              SELL
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="symbol">
+
+          <div class="symbol-top">
+            <div class="symbol-name">USDJPY</div>
+            <div>USD/JPY</div>
+          </div>
+
+          <div class="symbol-price">Live</div>
+
+          <div class="symbol-change">
+            Forex
+          </div>
+
+          <div class="symbol-buttons">
+
+            <button class="buy"
+              onclick="quickTrade('USDJPY','BUY')">
+              BUY
+            </button>
+
+            <button class="sell"
+              onclick="quickTrade('USDJPY','SELL')">
+              SELL
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="symbol">
+
+          <div class="symbol-top">
+            <div class="symbol-name">XAUUSD</div>
+            <div>GOLD</div>
+          </div>
+
+          <div class="symbol-price">Live</div>
+
+          <div class="symbol-change">
+            Gold
+          </div>
+
+          <div class="symbol-buttons">
+
+            <button class="buy"
+              onclick="quickTrade('XAUUSD','BUY')">
+              BUY
+            </button>
+
+            <button class="sell"
+              onclick="quickTrade('XAUUSD','SELL')">
+              SELL
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TRADE -->
+
+  <section class="panel trade-panel" id="tradeSection">
+
+    <div class="form-panel">
+
+      <div class="panel-head" style="padding:0 0 12px;border-bottom:0;">
+        <h2>New Demo Trade</h2>
+        <span>Market Order</span>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Symbol</label>
+
+          <select id="tradeSymbol">
+
+            <option>EURUSD</option>
+            <option>GBPUSD</option>
+            <option>USDJPY</option>
+            <option>XAUUSD</option>
+
+          </select>
+        </div>
+
+
+        <div class="field">
+          <label>Volume / Lots</label>
+
+          <input
+            id="lots"
+            type="number"
+            min="0.01"
+            step="0.01"
+            value="0.10">
+        </div>
+
+
+        <div class="field">
+
+          <label>Stop Loss</label>
+
+          <input
+            id="sl"
+            type="number"
+            step="0.00001"
+            placeholder="Optional">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Take Profit</label>
+
+          <input
+            id="tp"
+            type="number"
+            step="0.00001"
+            placeholder="Optional">
+
+        </div>
+
+      </div>
+
+
+      <div class="trade-buttons">
+
+        <button class="buy-big"
+          onclick="openTrade('BUY')">
+          BUY / LONG
+        </button>
+
+        <button class="sell-big"
+          onclick="openTrade('SELL')">
+          SELL / SHORT
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-panel">
+
+      <div class="panel-head" style="padding:0 0 12px;border-bottom:0;">
+        <h2>Trading Information</h2>
+      </div>
+
+      <div style="color:#8793a0;font-size:13px;line-height:1.8">
+
+        <div>Account Type:
+          <strong style="color:#fff">Demo</strong>
+        </div>
+
+        <div>Leverage:
+          <strong style="color:#fff">1:100</strong>
+        </div>
+
+        <div>Trading Mode:
+          <strong style="color:#19c37d">Demo</strong>
+        </div>
+
+        <div>Market:
+          <strong style="color:#fff">Forex / Gold</strong>
+        </div>
+
+        <div>Execution:
+          <strong style="color:#fff">Simulated</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- POSITIONS -->
+
+  <section class="panel table-panel" id="positionsSection">
+
+    <div class="panel-head">
+      <h2>Open Positions</h2>
+      <span id="positionCount">0 positions</span>
+    </div>
+
+    <div class="table-wrap">
 
       <table>
 
         <thead>
+
           <tr>
             <th>Ticket</th>
             <th>Symbol</th>
             <th>Type</th>
-            <th>Lots</th>
+            <th>Volume</th>
             <th>Open Price</th>
             <th>Current</th>
-            <th>SL</th>
-            <th>TP</th>
             <th>P/L</th>
             <th>Action</th>
           </tr>
+
         </thead>
 
-        <tbody id="positionsBody"></tbody>
+        <tbody id="positionsBody">
+
+        </tbody>
 
       </table>
 
-      <div id="emptyPositions" class="empty">
-        No open positions.
-      </div>
-
     </div>
 
-  </div>
+  </section>
 
 
   <!-- HISTORY -->
-  <div class="section">
 
-    <h2>Trade History</h2>
+  <section class="panel table-panel" id="historySection">
 
-    <div class="positions">
+    <div class="panel-head">
+      <h2>Trade History</h2>
+      <span>Closed trades</span>
+    </div>
+
+    <div class="table-wrap">
 
       <table>
 
         <thead>
+
           <tr>
             <th>Ticket</th>
             <th>Symbol</th>
             <th>Type</th>
-            <th>Lots</th>
+            <th>Volume</th>
             <th>Open</th>
             <th>Close</th>
             <th>P/L</th>
+            <th>Time</th>
           </tr>
+
         </thead>
 
-        <tbody id="historyBody"></tbody>
+        <tbody id="historyBody">
+
+        </tbody>
 
       </table>
 
-      <div id="emptyHistory" class="empty">
-        No trade history yet.
-      </div>
+    </div>
+
+  </section>
+
+
+  <!-- SETTINGS -->
+
+  <section class="panel settings" id="settingsSection">
+
+    <div class="panel-head">
+      <h2>Settings</h2>
+      <span>YvesFX Demo</span>
+    </div>
+
+
+    <div class="setting-row">
+
+      <label>Chart Theme</label>
+
+      <select onchange="changeTheme(this.value)">
+
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+
+      </select>
 
     </div>
 
-  </div>
+
+    <div class="setting-row">
+
+      <label>Default Symbol</label>
+
+      <select
+        onchange="changeSymbol(this.value)">
+
+        <option value="FX:EURUSD">EUR/USD</option>
+        <option value="FX:GBPUSD">GBP/USD</option>
+        <option value="FX:USDJPY">USD/JPY</option>
+        <option value="OANDA:XAUUSD">XAU/USD</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <label>Demo Starting Balance</label>
+
+      <strong>$10,000</strong>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <label>Account Type</label>
+
+      <strong>Demo</strong>
+
+    </div>
+
+  </section>
+
+</main>
 
 </div>
 
 
 <script>
 
-/* ==============================
-   USER / SESSION
-============================== */
+/* =========================
+   USER / ACCOUNT
+========================= */
 
-let user = JSON.parse(
-  localStorage.getItem("yvesfxUser") || "null"
-);
+let user =
+  JSON.parse(localStorage.getItem("yvesfxUser")) || {
 
-if (!user) {
-  window.location.href = "login.html";
-}
+    name:"Yves",
+    email:"demo@yvesfx.com",
+    balance:10000,
+    positions:[],
+    history:[]
 
-if (!user.positions) {
-  user.positions = [];
-}
+  };
 
-if (!user.history) {
-  user.history = [];
-}
 
-if (typeof user.balance !== "number") {
+if(!user.balance)
   user.balance = 10000;
-}
 
-document.getElementById("userName").textContent =
-  user.name || "Demo Trader";
+if(!user.positions)
+  user.positions = [];
 
-
-/* ==============================
-   MARKET PRICES
-============================== */
-
-let prices = {
-  EURUSD: 1.08500,
-  GBPUSD: 1.26800,
-  USDJPY: 147.250,
-  XAUUSD: 2350.00
-};
+if(!user.history)
+  user.history = [];
 
 
-/* ==============================
-   FORMAT MONEY
-============================== */
+document.getElementById("accountEmail").textContent =
+  user.email || "Demo Account";
+
+
+/* =========================
+   UTILITIES
+========================= */
 
 function money(value){
 
-  return "$" + Number(value).toLocaleString(
-    "en-US",
-    {
+  return "$" + Number(value || 0)
+    .toLocaleString("en-US",{
       minimumFractionDigits:2,
       maximumFractionDigits:2
-    }
+    });
+
+}
+
+
+function save(){
+
+  localStorage.setItem(
+    "yvesfxUser",
+    JSON.stringify(user)
   );
 
 }
 
 
-/* ==============================
-   PRICE DECIMALS
-============================== */
+function scrollToId(id){
 
-function decimals(symbol){
+  document.getElementById(id)
+    .scrollIntoView({
+      behavior:"smooth"
+    });
 
-  if(symbol === "XAUUSD"){
-    return 2;
-  }
-
-  if(symbol === "USDJPY"){
-    return 3;
-  }
-
-  return 5;
 }
 
 
-/* ==============================
-   UPDATE MARKET
-============================== */
+/* =========================
+   DEMO PRICES
+   Used only for simulated
+   P/L. The visible chart
+   uses TradingView market data.
+========================= */
 
-function updateMarket(){
+const demoPrices = {
 
-  Object.keys(prices).forEach(symbol => {
+  EURUSD:1.08500,
+  GBPUSD:1.26800,
+  USDJPY:147.250,
+  XAUUSD:2350.00
 
-    let movement;
+};
 
-    if(symbol === "XAUUSD"){
-      movement = (Math.random() - 0.5) * 2.5;
-    }
-    else if(symbol === "USDJPY"){
+
+/* =========================
+   TRADING
+========================= */
+
+function openTrade(type){
+
+  const symbol =
+    document.getElementById("tradeSymbol").value;
+
+  const lots =
+    Number(document.getElementById("lots").value);
+
+  const sl =
+    Number(document.getElementById("sl").value) || null;
+
+  const tp =
+    Number(document.getElementById("tp").value) || null;
+
+  if(!lots || lots <= 0){
+
+    alert("Enter a valid lot size.");
+
+    return;
+
+  }
+
+
+  const price =
+    demoPrices[symbol];
+
+
+  const position = {
+
+    ticket:Date.now(),
+
+    symbol:symbol,
+
+    type:type,
+
+    lots:lots,
+
+    openPrice:price,
+
+    sl:sl,
+
+    tp:tp,
+
+    openTime:new Date().toLocaleString()
+
+  };
+
+
+  user.positions.push(position);
+
+  save();
+
+  render();
+
+  alert(
+    type + " " +
+    symbol +
+    " opened as DEMO trade."
+  );
+
+}
+
+
+function quickTrade(symbol,type){
+
+  document.getElementById("tradeSymbol").value =
+    symbol;
+
+  openTrade(type);
+
+}
+
+
+/* =========================
+   CLOSE POSITION
+========================= */
+
+function closeTrade(ticket){
+
+  const index =
+    user.positions.findIndex(
+      p => p.ticket === ticket
+    );
+
+  if(index === -1)
+    return;
+
+
+  const position =
+    user.positions[index];
+
+  const current =
+    demoPrices[position.symbol];
+
+  const pnl =
+    calculatePL(
+      position,
+      current
+    );
+
+
+  user.balance += pnl;
+
+
+  user.history.unshift({
+
+    ...position,
+
+    closePrice:current,
+
+    pnl:pnl,
+
+    closeTime:new Date().toLocaleString()
+
+  });
+
+
+  user.positions.splice(index,1);
+
+  save();
+
+  render();
+
+}
+
+
+/* =========================
+   P/L
+========================= */
+
+function calculatePL(position,current){
+
+  let difference;
+
+  if(position.type === "BUY"){
+
+    difference =
+      current - position.openPrice;
+
+  }else{
+
+    difference =
+      position.openPrice - current;
+
+  }
+
+
+  if(position.symbol === "XAUUSD"){
+
+    return difference *
+      position.lots *
+      100;
+
+  }
+
+
+  if(position.symbol === "USDJPY"){
+
+    return difference *
+      position.lots *
+      100000 /
+      current;
+
+  }
+
+
+  return difference *
+    position.lots *
+    100000;
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function render(){
+
+  let floating = 0;
+
+  const body =
+    document.getElementById("positionsBody");
+
+
+  body.innerHTML = "";
+
+
+  user.positions.forEach(position => {
+
+    const current =
+      demoPrices[position.symbol];
+
+    const pnl =
+      calculatePL(
+        position,
+        current
+      );
+
+    floating += pnl;
+
+
+    const tr =
+      document.createElement("tr");
+
+
+    tr.innerHTML = `
+
+      <td>#${String(position.ticket).slice(-6)}</td>
+
+      <td>${position.symbol}</td>
+
+      <td>
+        <span class="${position.type === "BUY" ? "profit" : "loss"}">
+          ${position.type}
+        </span>
+      </td>
+
+      <td>${position.lots.toFixed(2)}</td>
+
+      <td>${position.openPrice}</td>
+
+      <td>${current}</td>
+
+      <td class="${pnl >= 0 ? "profit" : "loss"}">
+        ${money(pnl)}
+      </td>
+
+      <td>
+        <button
+          class="close-btn"
+          onclick="closeTrade(${position.ticket})">
+          Close
+        </button>
+      </td>
+
+    `;
+
+
+    body.appendChild(tr);
+
+  });
+
+
+  if(user.positions.length === 0){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="8" class="empty">
+          No open positions
+        </td>
+      </tr>
+    `;
+
+  }
+
+
+  document.getElementById("positionCount")
+    .textContent =
+    user.positions.length +
+    " position" +
+    (user.positions.length === 1 ? "" : "s");
+
+
+  const equity =
+    user.balance + floating;
+
+
+  document.getElementById("balance")
+    .textContent =
+    money(user.balance);
+
+
+  document.getElementById("equity")
+    .textContent =
+    money(equity);
+
+
+  document.getElementById("freeMargin")
+    .textContent =
+    money(equity);
+
+
+  const pl =
+    document.getElementById("floatingPL");
+
+  pl.textContent =
+    money(floating);
+
+  pl.className =
+    "stat-value " +
+    (floating >= 0 ? "profit" : "loss");
+
+
+  renderHistory();
+
+}
+
+
+function renderHistory(){
+
+  const body =
+    document.getElementById("historyBody");
+
+  body.innerHTML = "";
+
+
+  if(user.history.length === 0){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="8" class="empty">
+          No closed trades
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  user.history.forEach(trade => {
+
+    const tr =
+      document.createElement("tr");
+
+
+    tr.innerHTML = `
+
+      <td>#${String(trade.ticket).slice(-6)}</td>
+
+      <td>${trade.symbol}</td>
+
+      <td>
+        <span class="${trade.type === "BUY" ? "profit" : "loss"}">
+          ${trade.type}
+        </span>
+      </td>
+
+      <td>${Number(trade.lots).toFixed(2)}</td>
+
+      <td>${trade.openPrice}</td>
+
+      <td>${trade.closePrice}</td>
+
+      <td class="${trade.pnl >= 0 ? "profit" : "loss"}">
+        ${money(trade.pnl)}
+      </td>
+
+      <td>${trade.closeTime}</td>
+
+    `;
+
+
+    body.appendChild(tr);
+
+  });
+
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+function showSettings(){
+
+  const section =
+    document.getElementById("settingsSection");
+
+  section.classList.toggle("show");
+
+  if(section.classList.contains("show")){
+
+    section.scrollIntoView({
+      behavior:"smooth"
+    });
+
+  }
+
+}
+
+
+function changeTheme(value){
+
+  alert(
+    "Chart theme setting selected: " +
+    value +
+    ". Reload the chart to apply it."
+  );
+
+}
+
+
+function changeSymbol(value){
+
+  alert(
+    "Chart symbol selected: " +
+    value +
+    ". Use the TradingView chart symbol selector for the live chart."
+  );
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+  localStorage.removeItem(
+    "yvesfxSession"
+  );
+
+  window.location.href =
+    "login.html";
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+render();
+
+
+/*
+  Refresh demo prices periodically
+  ONLY for simulated P/L.
+
+  The actual visible market chart
+  remains connected to TradingView.
+*/
+
+setInterval(() => {
+
+  demoPrices.EURUSD +=
+    (Math.random() - 0.5) * 0.0008;
+
+  demoPrices.GBPUSD +=
+    (Math.random() - 0.5) * 0.0010;
+
+  demoPrices.USDJPY +=
+    (Math.random() - 0.5) * 0.08;
+
+  demoPrices.XAUUSD +=
+    (Math.random() - 0.5) * 1.5;
+
+  render();
+
+},1800);
+
+</script>
+
+</body>
+</html>
