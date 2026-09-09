@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YvesFX | Create Account</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      color: #20d6a3;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: #0d1c2d;
+      border: 1px solid #1c3045;
+      border-radius: 15px;
+      padding: 30px 22px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #9eacbb;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: 1px solid #294057;
+      background: #07111f;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #20d6a3;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #20d6a3;
+      color: #061019;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login {
+      text-align: center;
+      margin-top: 20px;
+      color: #9eacbb;
+      font-size: 14px;
+    }
+
+    .login a {
+      color: #20d6a3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .demo {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #101d2c;
+      color: #9eacbb;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #20d6a3;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">YvesFX</div>
+
+    <div class="card">
+
+      <h1>Create Account</h1>
+
+      <p class="subtitle">
+        Create your YvesFX demo account
+      </p>
+
+      <form onsubmit="demoRegister(event)">
+
+        <label>Full Name</label>
+        <input
+          type="text"
+          placeholder="Enter your name"
+          required
+        >
+
+        <label>Email Address</label>
+        <input
+          type="email"
+          placeholder="Enter your email"
+          required
+        >
+
+        <label>Password</label>
+        <input
+          type="password"
+          placeholder="Create a password"
+          required
+        >
+
+        <button type="submit">
+          Create Demo Account
+        </button>
+
+      </form>
+
+      <p class="login">
+        Already have an account?
+        <a href="#">Login</a>
+      </p>
+
+      <div class="demo">
+        DEMO ONLY — No real trading account or money is connected.
+      </div>
+
+    </div>
+
+    <a class="back" href="index.html">
+      ← Back to YvesFX
+    </a>
+
+  </div>
+
+  <script>
+    function demoRegister(event) {
+      event.preventDefault();
+
+      alert(
+        "Demo registration successful!\\n\\n" +
+        "This is only a prototype. No account or password was saved."
+      );
+    }
+  </script>
+
+</body>
+</html>
