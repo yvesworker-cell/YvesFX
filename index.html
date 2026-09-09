@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YvesFX | Trade Smarter</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: white;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1c2b3d;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      color: #20d6a3;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 14px;
+    }
+
+    .hero {
+      padding: 70px 22px;
+      text-align: center;
+      background: linear-gradient(180deg, #0b1b30, #07111f);
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #20d6a3;
+    }
+
+    .hero p {
+      color: #b8c5d3;
+      max-width: 600px;
+      margin: auto;
+      font-size: 17px;
+    }
+
+    .buttons {
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 6px;
+    }
+
+    .primary {
+      background: #20d6a3;
+      color: #061019;
+    }
+
+    .secondary {
+      border: 1px solid #20d6a3;
+      color: #20d6a3;
+    }
+
+    section {
+      padding: 55px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .title h2 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .title p {
+      color: #9eacbb;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: #0d1c2d;
+      border: 1px solid #1c3045;
+      border-radius: 12px;
+      padding: 25px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #20d6a3;
+    }
+
+    .card p {
+      color: #aebbc8;
+      font-size: 14px;
+    }
+
+    .steps {
+      text-align: center;
+    }
+
+    .step {
+      margin: 20px 0;
+      padding: 20px;
+      background: #0d1c2d;
+      border-radius: 10px;
+    }
+
+    .number {
+      font-size: 25px;
+      color: #20d6a3;
+      font-weight: bold;
+    }
+
+    .warning {
+      background: #101d2c;
+      border: 1px solid #33475d;
+      padding: 20px;
+      border-radius: 10px;
+      color: #aebbc8;
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid #1c2b3d;
+      color: #8493a3;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">YvesFX</div>
+
+    <nav>
+      <a href="#about">About</a>
+      <a href="#how">How it works</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <h1>Trade <span>Smarter.</span><br>Connect Better.</h1>
+
+      <p>
+        YvesFX helps traders connect with a regulated forex broker
+        through a simple and modern trading experience.
+      </p>
+
+      <div class="buttons">
+        <a href="#" class="btn primary">Open Trading Account</a>
+        <a href="#" class="btn secondary">Login</a>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="title">
+        <h2>Why YvesFX?</h2>
+        <p>A simple platform designed for traders.</p>
+      </div>
+
+      <div class="cards">
+
+        <div class="card">
+          <h3>Easy Access</h3>
+          <p>
+            Get a simple way to connect with our partner broker
+            and access your trading account.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Modern Dashboard</h3>
+          <p>
+            Manage your profile, referral information and
+            account activity from one place.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Referral Program</h3>
+          <p>
+            Share your unique referral link and track eligible
+            referrals through your dashboard.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="title">
+        <h2>How It Works</h2>
+        <p>Three simple steps.</p>
+      </div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="number">01</div>
+          <h3>Create Your Account</h3>
+          <p>Register on YvesFX and create your profile.</p>
+        </div>
+
+        <div class="step">
+          <div class="number">02</div>
+          <h3>Connect With Our Broker</h3>
+          <p>Open a trading account through our licensed broker partner.</p>
+        </div>
+
+        <div class="step">
+          <div class="number">03</div>
+          <h3>Trade & Track</h3>
+          <p>Trade through the broker and track eligible referral activity.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="title">
+        <h2>Risk Warning</h2>
+      </div>
+
+      <div class="warning">
+        Forex and CFD trading involves significant risk and may not be
+        suitable for everyone. You can lose money. YvesFX does not
+        guarantee profits or investment returns. Trading services will
+        only be provided through appropriately regulated partners.
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 YvesFX. All rights reserved.
+  </footer>
+
+</body>
+</html>
